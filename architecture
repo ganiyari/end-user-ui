@@ -1,0 +1,36 @@
+Initialization
+--------------
+- read the json file(s) and convert to Java objects
+- create sql prepared statements for select/insert/update/delete each entity
+
+CUD Request handling
+----------------
+- use the configuration to convert request to execute statements
+second stage (not runtime) - create/merge dimensions/enums in the database
+
+Decisions
+---------
+Should be able to support measurements with different units. When a field in measurement is specified  it would provide options to enter all the fields
+Dynamically change selectable values in one field based on value in other fields. This can be done for all fields which are dimensions
+Dimensions, measurements and enums would have to be populated in the database. We can generate the UI for it but should allow import by creating sql statements
+A plus button would be shown in the UI for facts/entities which point to another fact/entity
+Boolean should automatically become radio button
+How to support multi-select. Create many-to-many.
+Create a screen where from one can set the default value for certain fields in a form. This view should be same as that of a form but used f or filling information
+Generate sql only for the first time, after that expect the database to be in sync with definition
+
+Later
+Saiku based reporting
+Should create a separate view by information by entity is displayed. In first cut enable submission of forms
+Should have a dashboard which shows the list of the forms
+Ensure that their is an easy migration path from  the generated application to  custom application
+Understanding of date dimension would be required by this system. Date as a special dimension can be done later.
+Allow one to define dictionary id
+
+Architecture
+Java based code generation
+Excel based authoring – this to be translated to JSON
+Convention based
+Star schema database
+Angular based front end code generation
+No concept of entity
