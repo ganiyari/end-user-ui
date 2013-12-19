@@ -1,5 +1,4 @@
 @charset "UTF-8";
-@import "../components/openmrs-uicommons/scss/src/main/resources/sass/reference/fragments/grid";
 
 $column-width: 100;
 $gutter-width: 0;
@@ -12,19 +11,16 @@ $total-width: 100%;
 .form-field-inline {
   .form-field {
     float: left;
-    @include column(6);
     margin-bottom: 10px;
     //&:last-child{
     //  .field-attribute{
     //  }
     //}
   }
-  @include clearfix();
 }
 
 .form-field {
   margin-bottom: 10px;
-  @include clearfix();
   .field-attribute {
     float: left;
     label {
@@ -163,7 +159,6 @@ body {
 }
 
 .login-body {
-  @include clearfix();
   padding-top: 20px;
   background: #ffffff;
   border: 1px solid #eaeaea;
@@ -265,12 +260,10 @@ body {
     margin-top: 5px;
     border: 1px solid #cecece;
     background: #fff;
-    @include border-radius();
     .reg-search {
       margin-bottom: 10px;
       @include clearfix;
       .search-seperator-l {
-        @include column(5);
         border-right: 2px dotted #9E9D9D;
         select {
           width: 80px;
