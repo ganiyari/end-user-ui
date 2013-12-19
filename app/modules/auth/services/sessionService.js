@@ -2,7 +2,7 @@
 
 angular.module('ganiyari')
   .service('sessionService', ['$rootScope', '$http', '$q', '$cookieStore', function ($rootScope, $http, $q, $cookieStore) {
-    var sessionResourcePath = constants.openmrsUrl + '/ws/rest/v1/session';
+    var sessionResourcePath = '/ws/rest/v1/session';
 
     this.getSession = function () {
       return $http.get(sessionResourcePath, { cache: false });
