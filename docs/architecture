@@ -4,7 +4,7 @@ Initialization
 - create sql prepared statements for select/insert/update/delete each entity
 
 CUD Request handling
-----------------
+--------------------
 - use the configuration to convert request to execute statements
 second stage (not runtime) - create/merge dimensions/enums in the database
 
@@ -20,6 +20,7 @@ Create a screen where from one can set the default value for certain fields in a
 Generate sql only for the first time, after that expect the database to be in sync with definition
 
 Later
+-----
 Saiku based reporting
 Should create a separate view by information by entity is displayed. In first cut enable submission of forms
 Should have a dashboard which shows the list of the forms
@@ -28,7 +29,7 @@ Understanding of date dimension would be required by this system. Date as a spec
 Allow one to define dictionary id
 
 Architecture
-Java based code generation
+JavaScript based code generation
 Excel based authoring – this to be translated to JSON
 Convention based
 Star schema database

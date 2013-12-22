@@ -2,19 +2,20 @@
 
 angular
   .module('ganiyari', ['http-auth-interceptor', 'httpErrorInterceptor', 'infrastructure', 'ngCookies'])
-  .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
+  .config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/login',
       {
         templateUrl: 'modules/auth/views/login.html',
         controller: 'LoginController'
       });
-    $routeProvider.when('/dashboard',
+    $routeProvider.when('/form',
       {
-        templateUrl: 'modules/dashboard/views/dashboard.html',
+        templateUrl: 'modules/form/views/form.html',
         controller: 'DashboardController'
       });
-    $routeProvider.otherwise({redirectTo: '/dashboard'});
-  }]).run(function ($rootScope, $templateCache) {
+    $routeProvider.otherwise({redirectTo: '/form'});
+  }])
+  .run(function ($rootScope, $templateCache) {
     //Disable caching view template partials
     $rootScope.$on('$viewContentLoaded', function () {
         $templateCache.removeAll();

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ganiyari')
-  .controller('DashboardController', ['$scope', '$location', 'appService', '$q', 'sessionService', 'spinner', '$window', function ($scope, $location, appService, $q, sessionService, spinner, $window) {
+  .controller('FormController', ['$scope', '$location', 'appService', '$q', 'sessionService', 'spinner', '$window', function ($scope, $location, appService, $q, sessionService, spinner, $window) {
     $scope.openApp = function (appName) {
       $window.location = "/" + appName;
     }
@@ -27,8 +27,7 @@ angular.module('ganiyari')
 
     spinner.forPromise(initialize()).then(
       function () {
-        $scope.appExtensions = appService.allowedApps("org.bahmni.home.dashboard");
+        $scope.appExtensions = appService.allowedApps("org.bahmni.home.form");
       }
     );
-
   }]);
