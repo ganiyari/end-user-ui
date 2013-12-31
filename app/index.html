@@ -21,17 +21,22 @@
 
         <div ng-view id="view-content"></div>
         <script src="components/jquery/jquery.js"></script>
-        <script src="lib/jquery/jquery-ui-1.10.2.1.custom.min.js"></script>
         <script src="components/jquery.cookie/jquery.cookie.js"></script>
         <script src="components/angular/angular.js"></script>
         <script src="components/angular-cookies/angular-cookies.js"></script>
-        <script src="components/ngInfiniteScroll/ng-infinite-scroll.js"></script>
+        <script src="components/angular-route/angular-route.js"></script>
 
         <!-- build:js scripts/scripts.min.js -->
 
-        <script src="scripts/app.js"></script>  
-        <script src="scripts/initialization.js"></script>
+        <!-- modules -->
+        <!-- form module -->
+        <script src="modules/form/module.js"></script>
+        <script src="modules/form/repositories/allAggregateDefinitions.js"></script>
         <script src="modules/form/controllers/formController.js"></script>
+        <!-- end form module -->
+        <!-- end modules -->
+
+        <script src="scripts/app.js"></script>
         <!-- endbuild -->
     </div>
 </div>

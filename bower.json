@@ -11,15 +11,15 @@
     "components"
   ],
   "dependencies": {
-    "angular": "1.0.5",
-    "angular-cookies": "1.0.5",
-    "ngInfiniteScroll": "1.0.0",
+    "angular": "1.2.6",
+    "angular-cookies": "1.2.6",
+    "angular-route": "1.2.6",
     "jquery": "1.9.1",
     "jquery-ui": "1.10.2",
     "jquery.cookie": "1.4.0"
   },
   "devDependencies": {
-    "angular-mocks": "1.0.5",
-    "angular-scenario": "1.0.5"
+    "angular-mocks": "1.2.6",
+    "angular-scenario": "1.2.6"
   }
 }
