@@ -4,14 +4,14 @@
     "has": ["state", "district", "block", "tehsil", "village", "family number", "highest educational qualification", "village",
       "electrical connection type"],
     "has boolean": ["eat from same chulah", "all member captured", "migration in last two years", "has toilet"],
-    "has many": ["member", "income source"],
+    "has many": ["member", "income source"]
   },
   {
     "fact": "member",
     "has": ["name", "gender", "relationship", "blood pressure"],
     "has number": ["age", "heart rate"],
     "has mass": ["weight"],
-    "has length": ["height"],
+    "has length": ["height"]
   },
   {
     "enum": "house type",
