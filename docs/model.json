@@ -2,9 +2,7 @@
   {
     "fact": "household",
     "has": ["state", "district", "block", "tehsil", "village", "family number", "highest educational qualification", "village",
-      "electrical connection type"],
-    "has boolean": ["eat from same chulah", "all member captured", "migration in last two years", "has toilet"],
-    "has many": ["member", "income source"]
+      "electrical connection type", "eat from same chulah(boolean)", "all member captured(boolean)", "migration in last two years(boolean)", "has toilet(boolean)", "member(many)", "income source"]
   },
   {
     "fact": "member",

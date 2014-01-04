@@ -5,11 +5,10 @@ files = [
   JASMINE_ADAPTER,
   '../app/components/angular/angular.js',
   '../app/components/angular-mocks/angular-mocks.js',
-  '../app/components/ngInfiniteScroll/ng-infinite-scroll.js',
-  '../app/scripts/**/*.js',
-  '../app/modules/**/init.js',
+  '../app/scripts/*.js',
+  '../app/modules/**/module.js',
   '../app/modules/**/*.js',
-  'support/**/*.js',
+  '../app/modules/core/*.js',
   'unit/**/*.js'
 ];
 

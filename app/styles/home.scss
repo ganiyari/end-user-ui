@@ -224,7 +224,6 @@ body {
     color: #CCC;
     @include border-radius();
     .header-logo {
-      background: image-url("jss_logo.png") no-repeat scroll left top transparent;
       color: #ffffff;
       display: block;
       font-size: 2em;
