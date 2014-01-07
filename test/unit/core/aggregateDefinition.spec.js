@@ -52,6 +52,8 @@ describe("aggregateDefinition", function () {
         return e.hasName("household");
       })[0];
       expect(household.hasFactByName("member")).toBe(true);
+      expect(household.hasEnumByName("electrical connection type")).toBe(true);
+      expect(household.hasFieldByName("family number")).toBe(true);
     });
   });
 });

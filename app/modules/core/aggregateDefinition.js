@@ -50,23 +50,34 @@ var AggregateDefinition = (function () {
       var fields = factDefinitions[i].getDefinition()["has"];
       var currentFact = factDefinitions[i].getModel();
       for (var j = 0; j < fields.length; j++) {
-        var fieldName = fields[j].match(/(\w*\s*)*/)[0]
-//        console.log(fieldName + "---->" + dictionary[fields[j]]);
+        var fieldName = fields[j].match(/(\w*\s*)*/)[0];
         switch (dictionary[fieldName]) {
           case FACT :
-            var matchedFacts = $.grep(factDefinitions, function (e) {
-              return e.getModel().hasName(fieldName);
-            });
-            currentFact.addFact(matchedFacts[0].getModel());
+            currentFact.addFact(matchByFieldName(factDefinitions, fieldName));
             break;
           case DIMENSION :
+            currentFact.addDimension(matchByFieldName(dimensionDefinitions, fieldName));
             break;
           case ENUM :
+            $.grep(this.enums, function (e) {
+              return e.hasName(fieldName);
+            });
+            currentFact.addEnum(getItemsByName(this.enums, fieldName)[0]);
             break;
           default :
+            var fieldType = fields[j].match(/\50\w*\51/);
+            fieldType = (fieldType == null) ? "(string)" : fieldType;
+            currentFact.addField(fieldName, fieldType);
             break;
         }
       }
+    }
+
+    function matchByFieldName(definitions, fieldName) {
+      var matchedItems = $.grep(definitions, function (e) {
+        return e.getModel().hasName(fieldName);
+      });
+      return matchedItems[0].getModel();
     }
   }
 
@@ -85,10 +96,23 @@ var AggregateDefinition = (function () {
   return AggregateDefinition;
 })();
 
+function getItemsByName(arrayObj, name) {
+  return $.grep(arrayObj, function (e) {
+    return e.hasName(name);
+  });
+}
+
+function hasItemByName(arrayObj, name) {
+  return getItemsByName(arrayObj, name).length == 1;
+}
+
 var Fact = (function () {
   function Fact(name) {
     this.name = name;
     this.facts = [];
+    this.dimensions = [];
+    this.enums = [];
+    this.fields = {};
   }
 
   Fact.prototype.hasName = function (name) {
@@ -99,11 +123,28 @@ var Fact = (function () {
     return this.facts.push(fact);
   };
 
+  Fact.prototype.addDimension = function (dimension) {
+    return this.dimensions.push(dimension);
+  };
+
+  Fact.prototype.addEnum = function (enumeration) {
+    return this.enums.push(enumeration);
+  };
+
+  Fact.prototype.addField = function (field, fieldType) {
+    return this.fields[field] = fieldType;
+  };
+
   Fact.prototype.hasFactByName = function (factName) {
-    var matchingFacts = $.grep(this.facts, function (e) {
-      return e.hasName(factName);
-    });
-    return matchingFacts.length == 1;
+    return hasItemByName(this.facts, factName);
+  };
+
+  Fact.prototype.hasEnumByName = function (enumName) {
+    return hasItemByName(this.enums, enumName);
+  };
+
+  Fact.prototype.hasFieldByName = function (fieldName) {
+    return this.fields[fieldName] !== undefined;
   };
 
   return Fact;
@@ -114,6 +155,10 @@ var Enum = (function () {
     this.name = definition["enum"];
     this.values = definition["values"];
   }
+
+  Enum.prototype.hasName = function (name) {
+    return this.name === name;
+  };
 
   return Enum;
 })();
