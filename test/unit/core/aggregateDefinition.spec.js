@@ -3,9 +3,9 @@
 describe("core", function () {
   beforeEach(module('core'));
 
-  describe("Fact", function() {
+  describe("FactDefinition", function() {
     it("Field names", function () {
-      var fact = new Fact("foo");
+      var fact = new FactDefinition("foo");
       fact.addField("abc", "(boolean)");
       fact.addField("xyz", "(string)");
 

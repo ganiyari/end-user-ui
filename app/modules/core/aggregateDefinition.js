@@ -17,18 +17,18 @@ var AggregateDefinition = (function () {
       var dimensionName = definition[i]["dimension"];
 
       if (null != factName) {
-        var fact = new Fact(factName);
+        var fact = new FactDefinition(factName);
         factDefinitions.push(new ModelDefinitionPair(fact, definition[i]));
         this.facts.push(fact);
         dictionary[factName] = FACT;
         if (definition[i]["root"] === true) this.aggregate = fact;
       }
       if (null != enumName) {
-        this.enums.push(new Enum(definition[i]));
+        this.enums.push(new EnumDefinition(definition[i]));
         dictionary[enumName] = ENUM;
       }
       if (null != dimensionName) {
-        var dimension = new Dimension(dimensionName, definition[i]);
+        var dimension = new DimensionDefinition(dimensionName, definition[i]);
         dimensionDefinitions.push(new ModelDefinitionPair(dimension, definition[i]));
         this.dimensions.push(dimension);
         dictionary[dimensionName] = DIMENSION;
@@ -111,8 +111,8 @@ function hasItemByName(arrayObj, name) {
   return getItemsByName(arrayObj, name).length == 1;
 }
 
-var Fact = (function () {
-  function Fact(name) {
+var FactDefinition = (function () {
+  function FactDefinition(name) {
     this.name = name;
     this.facts = [];
     this.dimensions = [];
@@ -120,77 +120,77 @@ var Fact = (function () {
     this.fields = {};
   }
 
-  Fact.prototype.hasName = function (name) {
+  FactDefinition.prototype.hasName = function (name) {
     return this.name === name;
   };
 
-  Fact.prototype.addFact = function (fact) {
+  FactDefinition.prototype.addFact = function (fact) {
     return this.facts.push(fact);
   };
 
-  Fact.prototype.addDimension = function (dimension) {
+  FactDefinition.prototype.addDimension = function (dimension) {
     return this.dimensions.push(dimension);
   };
 
-  Fact.prototype.addEnum = function (enumeration) {
+  FactDefinition.prototype.addEnum = function (enumeration) {
     return this.enums.push(enumeration);
   };
 
-  Fact.prototype.addField = function (field, fieldType) {
+  FactDefinition.prototype.addField = function (field, fieldType) {
     return this.fields[field] = fieldType;
   };
 
-  Fact.prototype.hasFactByName = function (factName) {
+  FactDefinition.prototype.hasFactByName = function (factName) {
     return hasItemByName(this.facts, factName);
   };
 
-  Fact.prototype.hasEnumByName = function (enumName) {
+  FactDefinition.prototype.hasEnumByName = function (enumName) {
     return hasItemByName(this.enums, enumName);
   };
 
-  Fact.prototype.hasFieldByName = function (fieldName) {
+  FactDefinition.prototype.hasFieldByName = function (fieldName) {
     return this.fields[fieldName] !== undefined;
   };
 
-  Fact.prototype.fieldNames = function () {
+  FactDefinition.prototype.fieldNames = function () {
     return Object.keys(this.fields);
   };
 
-  return Fact;
+  return FactDefinition;
 })();
 
-var Enum = (function () {
-  function Enum(definition) {
+var EnumDefinition = (function () {
+  function EnumDefinition(definition) {
     this.name = definition["enum"];
     this.values = definition["values"];
   }
 
-  Enum.prototype.hasName = function (name) {
+  EnumDefinition.prototype.hasName = function (name) {
     return this.name === name;
   };
 
-  return Enum;
+  return EnumDefinition;
 })();
 
-var Dimension = (function () {
-  function Dimension(name, definition) {
+var DimensionDefinition = (function () {
+  function DimensionDefinition(name, definition) {
     this.name = name;
     this.values = definition["values"];
   }
 
-  Dimension.prototype.hasName = function (name) {
+  DimensionDefinition.prototype.hasName = function (name) {
     return this.name === name;
   };
 
-  Dimension.prototype.setParent = function (parentDimension) {
+  DimensionDefinition.prototype.setParent = function (parentDimension) {
     this.parent = parentDimension;
   };
 
-  Dimension.prototype.hasParentByName = function (parentName) {
+  DimensionDefinition.prototype.hasParentByName = function (parentName) {
     return this.parent.hasName(parentName);
   };
 
-  return Dimension;
+  return DimensionDefinition;
 })();
 
 var ModelDefinitionPair = (function () {
