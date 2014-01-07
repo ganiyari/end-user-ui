@@ -21,6 +21,7 @@ var AggregateDefinition = (function () {
         factDefinitions.push(new ModelDefinitionPair(fact, definition[i]));
         this.facts.push(fact);
         dictionary[factName] = FACT;
+        if (definition[i]["root"] === true) this.aggregate = fact;
       }
       if (null != enumName) {
         this.enums.push(new Enum(definition[i]));
@@ -93,6 +94,10 @@ var AggregateDefinition = (function () {
     return this.facts;
   };
 
+  AggregateDefinition.prototype.getAggregate = function() {
+    return this.aggregate;
+  };
+
   return AggregateDefinition;
 })();
 
@@ -145,6 +150,10 @@ var Fact = (function () {
 
   Fact.prototype.hasFieldByName = function (fieldName) {
     return this.fields[fieldName] !== undefined;
+  };
+
+  Fact.prototype.fieldNames = function () {
+    return Object.keys(this.fields);
   };
 
   return Fact;

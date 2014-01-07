@@ -1,22 +1,14 @@
-<header class="reg-header">
-    <a class="header-logo" href="/home">Jan Swasthya Sahyog</a>
+<header>
+    <a href="/home">Jan Swasthya Sahyog</a>
     <ul>
-        <li ng-show=currentUser.username>
-            <a><i class="icon-user icon-white small"></i><span ng-bind="currentUser.username"></span></a>
-        </li>
         <li>
-            <a log-out><i class="icon-off icon-white small"></i><span class="nav-link">Logout</span></a>
+            <a><i></i><span>Logout</span></a>
         </li>
     </ul>
 </header>
 
-<div class="login">
-    <div class="apps">
-        <ul>
-            <li ng-repeat="extn in appExtensions">
-                <a ng-click="openApp(extn.url)" class="button app big"><i class="{{extn.icon}}"></i>{{extn.label}}</a>
-            </li>
-        </ul>
+<div>
+    <div ng-repeat="fieldName in formScope.aggregate.fieldNames()">
+        <div>{{fieldName}}</div>
     </div>
-
 </div>

@@ -7,7 +7,8 @@ angular.module('form')
 
       spinner.forPromise(allAggregateDefinitions.get("default")).then(
         function (definition) {
-          scope.currentAggregateDefinition = new AggregateDefinition(definition);
+          var aggregateDefinition = new AggregateDefinition(definition);
+          scope.aggregate = aggregateDefinition.getAggregate();
         }
       );
     }]);
