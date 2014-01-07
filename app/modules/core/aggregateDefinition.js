@@ -156,6 +156,24 @@ var FactDefinition = (function () {
     return Object.keys(this.fields);
   };
 
+  FactDefinition.prototype.isFieldBoolean = function (fieldName) {
+    return this.fields[fieldName] === "(boolean)"
+  };
+
+  FactDefinition.prototype.isFieldString = function (fieldName) {
+    return this.fields[fieldName] === "(string)"
+  };
+
+  FactDefinition.prototype.newInstance = function () {
+    var instance = {
+      'fields' : {}
+    };
+    this.fieldNames().forEach(function(e) {
+      instance["fields"][e] = null;
+    });
+    return instance;
+  };
+
   return FactDefinition;
 })();
 

@@ -4,17 +4,36 @@ describe("core", function () {
   beforeEach(module('core'));
 
   describe("FactDefinition", function() {
-    it("Field names", function () {
+    it("should get field names", function () {
       var fact = new FactDefinition("foo");
       fact.addField("abc", "(boolean)");
       fact.addField("xyz", "(string)");
 
       expect(fact.fieldNames().length).toBe(2);
     });
+
+    it("should get field types", function () {
+      var fact = new FactDefinition("foo");
+      fact.addField("abc", "(boolean)");
+      fact.addField("xyz", "(string)");
+      expect(fact.isFieldBoolean("abc")).toBe(true);
+      expect(fact.isFieldString("xyz")).toBe(true);
+    });
+
+    it("should create new instance", function () {
+      var fact = new FactDefinition("foo");
+      fact.addField("abc", "(boolean)");
+      fact.addField("xyz", "(string)");
+
+      var instance = fact.newInstance();
+      expect(instance).toBeDefined();
+      expect(instance["fields"]["abc"]).toBeDefined(null);
+      expect(instance["fields"]["abc"]).toBe(null);
+    });
   });
 
   describe("AggregateDefinition", function () {
-    it("Interpret aggregate definition", function () {
+    it("should interpret aggregate definition", function () {
       var json = '[\
       {\
         "fact": "household",\

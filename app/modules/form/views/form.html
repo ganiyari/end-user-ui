@@ -1,5 +1,9 @@
 <div>
-    <div ng-repeat="fieldName in formScope.aggregate.fieldNames()">
-        <div>{{fieldName}}</div>
-    </div>
+    <ul>
+        <li ng-repeat="fieldName in formScope.factDefinition.fieldNames()">
+            <div>{{fieldName}}</div>
+            <div>:</div>
+            <input ng-if="formScope.factDefinition.fieldType(fieldName) === true" type="text"/>
+        </li>
+    </ul>
 </div>
