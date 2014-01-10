@@ -18,15 +18,15 @@
   },
   {
     "enum": "income source",
-    "values": ["a", "b"]
+    "values": ["agriculture", "business"]
   },
   {
     "enum": "educational qualification",
-    "values": ["w", "x"]
+    "values": ["matriculation", "secondary"]
   },
   {
     "enum": "electrical connection type",
-    "values": ["a", "b"]
+    "values": ["solar", "none"]
   },
   {
     "dimension": "state"

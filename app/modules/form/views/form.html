@@ -1,9 +1,16 @@
 <div>
     <ul>
         <li ng-repeat="fieldName in formScope.factDefinition.fieldNames()">
-            <div>{{fieldName}}</div>
-            <div>:</div>
-            <input ng-if="formScope.factDefinition.fieldType(fieldName) === true" type="text"/>
+            <div ng-if="formScope.factDefinition.isFieldString(fieldName)">{{fieldName}}<span>:</span><input
+                    type="text"/></div>
+            <div ng-if="formScope.factDefinition.isFieldBoolean(fieldName)">{{fieldName}}<span>:</span><input
+                    type="checkbox"/></div>
+            <div ng-if="formScope.factDefinition.isFieldEnum(fieldName)">
+                <div>{{fieldName}}<span>:</span>
+                    <select name="fieldName" ng-model="formScope.aggregate.fields[fieldName]"
+                            ng-options="c.toString() for c in formScope.aggregateDefinition.getEnum(fieldName).getValues()"/>
+                </div>
+            </div>
         </li>
     </ul>
 </div>

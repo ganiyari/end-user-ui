@@ -17,7 +17,9 @@ describe("core", function () {
       fact.addField("abc", "(boolean)");
       fact.addField("xyz", "(string)");
       expect(fact.isFieldBoolean("abc")).toBe(true);
+      expect(fact.isFieldBoolean("xyz")).toBe(false);
       expect(fact.isFieldString("xyz")).toBe(true);
+      expect(fact.isFieldString("abc")).toBe(false);
     });
 
     it("should create new instance", function () {
@@ -73,6 +75,7 @@ describe("core", function () {
       var household = aggregateDefinition.getAggregate();
       expect(household.hasName("household")).toBe(true);
       expect(aggregateDefinition.getEnums().length).toBe(2);
+      expect(aggregateDefinition.getEnum("income source").getValues().length).toBe(2);
       expect(aggregateDefinition.getDimensions().length).toBe(4);
 
       var district = $.grep(aggregateDefinition.getDimensions(), function (e) {
@@ -83,6 +86,7 @@ describe("core", function () {
       expect(household.hasFactByName("member")).toBe(true);
       expect(household.hasEnumByName("electrical connection type")).toBe(true);
       expect(household.hasFieldByName("family number")).toBe(true);
+      expect(household.isFieldBoolean("eat from same chulah")).toBe(true);
     });
   });
 });

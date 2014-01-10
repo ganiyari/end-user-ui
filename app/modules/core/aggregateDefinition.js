@@ -67,7 +67,7 @@ var AggregateDefinition = (function () {
             break;
           default :
             var fieldType = fields[j].match(/\50\w*\51/);
-            fieldType = (fieldType == null) ? "(string)" : fieldType;
+            fieldType = (fieldType == null) ? "(string)" : fieldType[0];
             currentFact.addField(fieldName, fieldType);
             break;
         }
@@ -86,6 +86,10 @@ var AggregateDefinition = (function () {
     return this.enums;
   };
 
+  AggregateDefinition.prototype.getEnum = function (name) {
+    return getItemByName(this.enums, name);
+  };
+
   AggregateDefinition.prototype.getDimensions = function () {
     return this.dimensions;
   };
@@ -100,6 +104,11 @@ var AggregateDefinition = (function () {
 
   return AggregateDefinition;
 })();
+
+function getItemByName(arrayObj, name) {
+  var items = getItemsByName(arrayObj, name);
+  return (items.length == 1) ? items[0] : null;
+};
 
 function getItemsByName(arrayObj, name) {
   return $.grep(arrayObj, function (e) {
@@ -120,19 +129,26 @@ var FactDefinition = (function () {
     this.fields = {};
   }
 
+  FactDefinition.prototype.getName = function () {
+    return this.name;
+  };
+
   FactDefinition.prototype.hasName = function (name) {
     return this.name === name;
   };
 
   FactDefinition.prototype.addFact = function (fact) {
+    this.fields[fact.getName()] = "(fact)";
     return this.facts.push(fact);
   };
 
   FactDefinition.prototype.addDimension = function (dimension) {
+    this.fields[dimension.getName()] = "(dimension)";
     return this.dimensions.push(dimension);
   };
 
   FactDefinition.prototype.addEnum = function (enumeration) {
+    this.fields[enumeration.getName()] = "(enum)";
     return this.enums.push(enumeration);
   };
 
@@ -157,7 +173,11 @@ var FactDefinition = (function () {
   };
 
   FactDefinition.prototype.isFieldBoolean = function (fieldName) {
-    return this.fields[fieldName] === "(boolean)"
+    return this.fields[fieldName] === "(boolean)";
+  };
+
+  FactDefinition.prototype.isFieldEnum = function (fieldName) {
+    return this.fields[fieldName] === "(enum)";
   };
 
   FactDefinition.prototype.isFieldString = function (fieldName) {
@@ -183,8 +203,16 @@ var EnumDefinition = (function () {
     this.values = definition["values"];
   }
 
+  EnumDefinition.prototype.getName = function () {
+    return this.name;
+  };
+
   EnumDefinition.prototype.hasName = function (name) {
     return this.name === name;
+  };
+
+  EnumDefinition.prototype.getValues = function() {
+    return this.values;
   };
 
   return EnumDefinition;
@@ -195,6 +223,10 @@ var DimensionDefinition = (function () {
     this.name = name;
     this.values = definition["values"];
   }
+
+  DimensionDefinition.prototype.getName = function () {
+    return this.name;
+  };
 
   DimensionDefinition.prototype.hasName = function (name) {
     return this.name === name;
