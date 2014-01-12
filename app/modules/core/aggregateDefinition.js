@@ -1,8 +1,9 @@
 'use strict';
 
-var AggregateDefinition = (function () {
-  function AggregateDefinition(definition) {
-    var FACT = "FACT", DIMENSION = "DIMENSION", ENUM = "ENUM";
+var FACT = "(fact)", DIMENSION = "(dimension)", ENUM = "(enum)", BOOLEAN = "(boolean)", STRING = "(string)";
+
+var AggregateModel = (function () {
+  function AggregateModel(definition) {
     var factDefinitions = [];
     var dimensionDefinitions = [];
     var dictionary = {};
@@ -82,27 +83,31 @@ var AggregateDefinition = (function () {
     }
   }
 
-  AggregateDefinition.prototype.getEnums = function () {
+  AggregateModel.prototype.getEnums = function () {
     return this.enums;
   };
 
-  AggregateDefinition.prototype.getEnum = function (name) {
+  AggregateModel.prototype.getEnum = function (name) {
     return getItemByName(this.enums, name);
   };
 
-  AggregateDefinition.prototype.getDimensions = function () {
+  AggregateModel.prototype.getDimensions = function () {
     return this.dimensions;
   };
 
-  AggregateDefinition.prototype.getFacts = function () {
+  AggregateModel.prototype.getFacts = function () {
     return this.facts;
   };
 
-  AggregateDefinition.prototype.getAggregate = function() {
+  AggregateModel.prototype.getFact = function (factName) {
+    return getItemByName(this.facts, factName);
+  };
+
+  AggregateModel.prototype.getAggregate = function () {
     return this.aggregate;
   };
 
-  return AggregateDefinition;
+  return AggregateModel;
 })();
 
 function getItemByName(arrayObj, name) {
@@ -173,22 +178,26 @@ var FactDefinition = (function () {
   };
 
   FactDefinition.prototype.isFieldBoolean = function (fieldName) {
-    return this.fields[fieldName] === "(boolean)";
+    return this.fields[fieldName] === BOOLEAN;
   };
 
   FactDefinition.prototype.isFieldEnum = function (fieldName) {
-    return this.fields[fieldName] === "(enum)";
+    return this.fields[fieldName] === ENUM;
   };
 
   FactDefinition.prototype.isFieldString = function (fieldName) {
-    return this.fields[fieldName] === "(string)"
+    return this.fields[fieldName] === STRING
+  };
+
+  FactDefinition.prototype.isFieldFact = function (fieldName) {
+    return this.fields[fieldName] === FACT;
   };
 
   FactDefinition.prototype.newInstance = function () {
     var instance = {
-      'fields' : {}
+      'fields': {}
     };
-    this.fieldNames().forEach(function(e) {
+    this.fieldNames().forEach(function (e) {
       instance["fields"][e] = null;
     });
     return instance;
@@ -211,7 +220,7 @@ var EnumDefinition = (function () {
     return this.name === name;
   };
 
-  EnumDefinition.prototype.getValues = function() {
+  EnumDefinition.prototype.getValues = function () {
     return this.values;
   };
 
@@ -258,6 +267,39 @@ var ModelDefinitionPair = (function () {
   };
 
   return ModelDefinitionPair;
+})();
+
+var ModelNavigator = (function () {
+  function ModelNavigator(model) {
+    this.model = model;
+  }
+
+  ModelNavigator.prototype.getCurrentFact = function () {
+    if (this.currentFact == null) {
+      this.currentFact = this.model.getAggregate();
+      this.currentFactInstance = this.currentFact.newInstance();
+    }
+    return this.currentFact;
+  };
+
+  ModelNavigator.prototype.nextFact = function (factName) {
+    if (this.getCurrentFact().isFieldFact(factName)) {
+      this.currentFact = this.model.getFact(factName);
+      this.currentFactInstance = this.currentFact.newInstance();
+      return true;
+    }
+    return false;
+  };
+
+  ModelNavigator.prototype.getCurrentFactInstance = function () {
+    return this.currentFactInstance;
+  };
+
+  ModelNavigator.prototype.getModel = function () {
+    return this.model;
+  };
+
+  return ModelNavigator;
 })();
 
 //a.match(/\50\w*\51/)

@@ -6,11 +6,13 @@ angular.module('form')
       var scope = $rootScope.formScope;
 
       spinner.forPromise(allAggregateDefinitions.get("default")).then(
-        function (definition) {
-          scope.aggregateDefinition = new AggregateDefinition(definition);
-          scope.factDefinition = scope.aggregateDefinition.getAggregate();
-          scope.aggregate = scope.factDefinition.newInstance();
-          alert(JSON.stringify(scope.aggregateDefinition));
+        function (model) {
+          var aggregateModel, modelNavigator;
+          aggregateModel = new AggregateModel(model);
+          modelNavigator = new ModelNavigator(aggregateModel);
+
+          scope.modelNavigator = modelNavigator;
+//          alert(JSON.stringify(scope.modelNavigator));
         }
       );
     }]);
