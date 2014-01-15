@@ -1,18 +1,25 @@
-<div>
-    <ul>
-        <!--<li><span>FOOOOOOOOOOOOOOOOOOOOOO</span></li>-->
-        <li ng-repeat="fieldName in formScope.modelNavigator.getCurrentFact().fieldNames()">
-            <div ng-if="formScope.modelNavigator.getCurrentFact().isFieldString(fieldName)">{{fieldName}}<span>:</span><input
-                    type="text"/></div>
-            <div ng-if="formScope.modelNavigator.getCurrentFact().isFieldBoolean(fieldName)">{{fieldName}}<span>:</span><input
-                    type="checkbox"/></div>
-            <div ng-if="formScope.modelNavigator.getCurrentFact().isFieldEnum(fieldName)">
-                <div>{{fieldName}}<span>:</span>
-                    <select name="fieldName" ng-model="formScope.modelNavigator.getCurrentFactInstance().fields[fieldName]"
-                            ng-options="c.toString() for c in formScope.modelNavigator.getModel().getEnum(fieldName).getValues()"/>
-                </div>
-            </div>
-            <div ng-if="formScope.modelNavigator.nextFact(fieldName)" ng-include src="'modules/form/views/form-internal.html'"/>
-        </li>
-    </ul>
-</div>
+<li><span>FOOOOOOOOOOOOOOOOOOOOOO</span></li>
+
+<li ng-repeat="fieldName in fact.getFactDefinition().fieldNames()">
+    <div ng-if="fact.getFactDefinition().isFieldString(fieldName)">
+        {{fieldName}}<span>:</span>
+        <input type="text" ng-model="fact.getField(fieldName).getValue().value"/>
+    </div>
+    <div ng-if="fact.getFactDefinition().isFieldBoolean(fieldName)">
+        {{fieldName}}<span>:</span><input
+            type="checkbox" ng-model="fact.getField(fieldName).getValue().value"/>
+    </div>
+    <div ng-if="fact.getFactDefinition().isFieldEnum(fieldName)">
+        <div>{{fieldName}}<span>:</span>
+            <select name="fieldName"
+                    ng-model="fact.getField(fieldName).getValue().value"
+                    ng-options="c.toString() for c in formScope.aggregateModel.getEnum(fieldName).getValues()"/>
+        </div>
+    </div>
+    <div ng-if="fact.getFactDefinition().isFieldFact(fieldName)">
+        <button type="button" ng-click="formScope.addChildFact(fieldName)">Add</button>
+        <ul>
+            <li ng-repeat="fact in fact.getChildFacts()" ng-include="'modules/form/views/form-internal.html'"/>
+        </ul>
+    </div>
+</li>

@@ -1,18 +1,25 @@
 'use strict';
 
 angular.module('form')
-  .controller('FormController', ['$rootScope', '$location', 'allAggregateDefinitions', '$q', 'spinner',
-    function ($rootScope, $location, allAggregateDefinitions, $q, spinner) {
+  .controller('FormController', ['$rootScope', 'allAggregateDefinitions', '$q', 'spinner',
+    function ($rootScope, allAggregateDefinitions, $q, spinner) {
       var scope = $rootScope.formScope;
 
       spinner.forPromise(allAggregateDefinitions.get("default")).then(
         function (model) {
-          var aggregateModel, modelNavigator;
-          aggregateModel = new AggregateModel(model);
-          modelNavigator = new ModelNavigator(aggregateModel);
-
-          scope.modelNavigator = modelNavigator;
-//          alert(JSON.stringify(scope.modelNavigator));
+          var aggregateModel = new AggregateModel(model);
+          var rootFact = aggregateModel.getAggregate().newInstance();
+          scope.aggregateModel = aggregateModel;
+          scope.aggregate = rootFact;
         }
       );
+
+      scope.save = function () {
+        console.log(JSON.stringify(scope.modelNavigator.getAggregateInstance()));
+      };
+
+      scope.addChildFact = function (factName) {
+        var factDefinition = scope.aggregateModel.getFactDefinition(factName);
+        scope.aggregate.addChildFact(factDefinition);
+      };
     }]);

@@ -1,1 +1,4 @@
-<div ng-include src="'modules/form/views/form-internal.html'"/>
+<div>
+    <ul ng-repeat="fact in [formScope.aggregate]" ng-include="'modules/form/views/form-internal.html'"/>
+    <button type="button" ng-click="formScope.save()">Save</button>
+</div>

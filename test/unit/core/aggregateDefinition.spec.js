@@ -59,14 +59,14 @@ describe("core", function () {
     });
 
     it("should create new instance", function () {
-      var fact = new FactDefinition("foo");
-      fact.addField("abc", "(boolean)");
-      fact.addField("xyz", "(string)");
+      var factDefinition = new FactDefinition("foo");
+      factDefinition.addField("abc", "(boolean)");
+      factDefinition.addField("xyz", "(string)");
 
-      var instance = fact.newInstance();
+      var instance = factDefinition.newInstance();
       expect(instance).toBeDefined();
-      expect(instance["fields"]["abc"]).toBeDefined(null);
-      expect(instance["fields"]["abc"]).toBe(null);
+      expect(instance.getField("abc")).toBeDefined();
+      expect(instance.getField("abc").getValue().value).toBe(null);
     });
   });
 
@@ -88,15 +88,6 @@ describe("core", function () {
       expect(household.hasEnumByName("electrical connection type")).toBe(true);
       expect(household.hasFieldByName("family number")).toBe(true);
       expect(household.isFieldBoolean("eat from same chulah")).toBe(true);
-    });
-  });
-
-  describe("AggregateModelNavigator", function () {
-    it("should get the next fact", function () {
-      var aggregateModel = new AggregateModel(jsonObj);
-      var modelNavigator = new ModelNavigator(aggregateModel);
-      console.log(modelNavigator.getCurrentFact().isFieldFact("member"));
-      expect(modelNavigator.nextFact("member")).toBe(true);
     });
   });
 });

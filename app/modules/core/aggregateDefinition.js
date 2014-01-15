@@ -99,7 +99,7 @@ var AggregateModel = (function () {
     return this.facts;
   };
 
-  AggregateModel.prototype.getFact = function (factName) {
+  AggregateModel.prototype.getFactDefinition = function (factName) {
     return getItemByName(this.facts, factName);
   };
 
@@ -193,17 +193,69 @@ var FactDefinition = (function () {
     return this.fields[fieldName] === FACT;
   };
 
+  FactDefinition.prototype.fieldType = function (fieldName) {
+    return this.fields[fieldName];
+  };
+
   FactDefinition.prototype.newInstance = function () {
-    var instance = {
-      'fields': {}
-    };
-    this.fieldNames().forEach(function (e) {
-      instance["fields"][e] = null;
-    });
-    return instance;
+    return new Fact(this);
   };
 
   return FactDefinition;
+})();
+
+var Fact = (function () {
+  function Fact(factDefinition) {
+    this.factDefinition = factDefinition;
+    this.fields = [];
+    factDefinition.fieldNames().forEach(function (fieldName) {
+      this.fields.push(new Field(fieldName, factDefinition.fieldType(fieldName)));
+    }, this);
+    this.childFacts = [];
+  }
+
+  Fact.prototype.addChildFact = function (childFactDefinition) {
+    this.childFacts.push(new Fact(childFactDefinition));
+  };
+
+  Fact.prototype.getFactDefinition = function () {
+    return this.factDefinition;
+  };
+
+  Fact.prototype.getField = function (fieldName) {
+    return getItemByName(this.fields, fieldName);
+  };
+
+  Fact.prototype.getFieldValue = function (fieldName) {
+    return this.getField(fieldName).getValue();
+  };
+
+  Fact.prototype.getChildFacts = function () {
+    return this.childFacts;
+  };
+
+  return Fact;
+})();
+
+var Field = (function () {
+  var fieldValue = {
+    value: null
+  };
+
+  function Field(name, type) {
+    this.name = name;
+    this.type = type;
+  }
+
+  Field.prototype.hasName = function (name) {
+    return this.name === name;
+  };
+
+  Field.prototype.getValue = function () {
+    return fieldValue;
+  };
+
+  return Field;
 })();
 
 var EnumDefinition = (function () {
@@ -267,39 +319,6 @@ var ModelDefinitionPair = (function () {
   };
 
   return ModelDefinitionPair;
-})();
-
-var ModelNavigator = (function () {
-  function ModelNavigator(model) {
-    this.model = model;
-  }
-
-  ModelNavigator.prototype.getCurrentFact = function () {
-    if (this.currentFact == null) {
-      this.currentFact = this.model.getAggregate();
-      this.currentFactInstance = this.currentFact.newInstance();
-    }
-    return this.currentFact;
-  };
-
-  ModelNavigator.prototype.nextFact = function (factName) {
-    if (this.getCurrentFact().isFieldFact(factName)) {
-      this.currentFact = this.model.getFact(factName);
-      this.currentFactInstance = this.currentFact.newInstance();
-      return true;
-    }
-    return false;
-  };
-
-  ModelNavigator.prototype.getCurrentFactInstance = function () {
-    return this.currentFactInstance;
-  };
-
-  ModelNavigator.prototype.getModel = function () {
-    return this.model;
-  };
-
-  return ModelNavigator;
 })();
 
 //a.match(/\50\w*\51/)

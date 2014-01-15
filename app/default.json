@@ -7,10 +7,7 @@
   },
   {
     "fact": "member",
-    "has": ["name", "gender", "relationship", "blood pressure"],
-    "has number": ["age", "heart rate"],
-    "has mass": ["weight"],
-    "has length": ["height"]
+    "has": ["name", "gender", "relationship", "blood pressure", "age(number)", "heart rate(number)", "weight(mass)", "height(length)"]
   },
   {
     "enum": "house type",
