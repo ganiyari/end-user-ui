@@ -234,17 +234,20 @@ var Fact = (function () {
     return this.childFacts;
   };
 
+  Fact.prototype.toJSON = function () {
+    return {fields: this.fields, childFacts : this.childFacts};
+  };
+
   return Fact;
 })();
 
 var Field = (function () {
-  var fieldValue = {
-    value: null
-  };
-
   function Field(name, type) {
     this.name = name;
     this.type = type;
+    this.fieldValue = {
+      value: null
+    };
   }
 
   Field.prototype.hasName = function (name) {
@@ -252,7 +255,11 @@ var Field = (function () {
   };
 
   Field.prototype.getValue = function () {
-    return fieldValue;
+    return this.fieldValue;
+  };
+
+  Field.prototype.toJSON = function () {
+    return {name: this.name, value : fieldValue.value, type : this.type};
   };
 
   return Field;

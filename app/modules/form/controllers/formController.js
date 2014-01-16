@@ -15,7 +15,7 @@ angular.module('form')
       );
 
       scope.save = function () {
-        console.log(JSON.stringify(scope.modelNavigator.getAggregateInstance()));
+        console.log(JSON.stringify(scope.aggregate));
       };
 
       scope.addChildFact = function (factName) {
